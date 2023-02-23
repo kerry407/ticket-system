@@ -26,7 +26,7 @@ class Event(models.Model):
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     date_created = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(default=timezone.now)
-    slug = models.SlugField(db_index=True)
+    slug = models.SlugField(db_index=True, editable=False)
     tags = models.ManyToManyField(Category)
     
     def save(self, *args, **kwargs):
