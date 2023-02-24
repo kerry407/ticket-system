@@ -9,12 +9,18 @@ import uuid
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=20)
+    slug = models.SlugField(db_index=True)
     
     class Meta:
         verbose_name_plural = "Categories"
     
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+    
     def __str__(self):
         return self.name
+
     
 class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -22,21 +28,32 @@ class Event(models.Model):
     event_date = models.DateField()
     event_time = models.TimeField(null=True)
     location = models.CharField(max_length=300)
-    ticket_price = models.FloatField(default=0)
+    address = models.CharField(max_length=100, null=True)
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     date_created = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(default=timezone.now)
-    slug = models.SlugField(db_index=True, editable=False)
+    slug = models.SlugField(db_index=True)
     tags = models.ManyToManyField(Category)
+    about = models.TextField(null=True)
+    
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        return super.save(*args, **kwargs)
+        return super().save(*args, **kwargs)
     
     def __str__(self):
         return self.title
-    
 
+class Ticket(models.Model):
+    ticket_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    ticket_type = models.CharField(max_length=25)
+    ticket_price = models.FloatField()
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.ticket_id
+    
+    
 class SocialMedia(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     facebook = models.URLField(null=True, blank=True)
