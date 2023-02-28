@@ -9,7 +9,7 @@ import uuid
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=20)
-    slug = models.SlugField(db_index=True)
+    slug = models.SlugField(db_index=True, editable=False)
     
     class Meta:
         verbose_name_plural = "Categories"
@@ -31,11 +31,11 @@ class Event(models.Model):
     address = models.CharField(max_length=100, null=True)
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     date_created = models.DateTimeField(default=timezone.now)
-    last_updated = models.DateTimeField(default=timezone.now)
-    slug = models.SlugField(db_index=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(db_index=True, editable=False)
     tags = models.ManyToManyField(Category)
     about = models.TextField(null=True)
-    
+    expired = models.BooleanField(default=False)
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -43,6 +43,7 @@ class Event(models.Model):
     
     def __str__(self):
         return self.title
+    
 
 class Ticket(models.Model):
     ticket_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
