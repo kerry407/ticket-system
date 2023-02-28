@@ -9,7 +9,14 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
         
 class EventSerializer(serializers.ModelSerializer):
-    
+    tags = serializers.StringRelatedField(many=True, read_only=True)
+    host = serializers.StringRelatedField()
     class Meta:
         model = Event 
-        fields = "__all__"
+        fields = [
+                    "title", "event_date", 
+                    "event_time", "location", 
+                    "address", "date_created", 
+                    "last_updated", "tags", 
+                    "about", "expired", "host"
+                ]
