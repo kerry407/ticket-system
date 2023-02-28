@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _ 
 import uuid
+from django.conf import settings
 # Create your models here.
 
 from .manager import CustomUserManager
@@ -17,9 +18,14 @@ class CustomUser(AbstractUser):
     
     objects = CustomUserManager()
     
-    def __str__(self) -> str:
+    def __str__(self):
         return self.email 
     
+    
+
+class HostUserProfile(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    company_name = models.CharField(max_length=50)
     
     
     
