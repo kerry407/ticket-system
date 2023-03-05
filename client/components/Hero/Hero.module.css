@@ -1,0 +1,132 @@
+.Hero {
+    position: relative;
+    width: 100%;
+    height: 700px;
+    background-color: red;
+
+}
+.Hero img {
+    object-fit: cover;
+}
+.overlay {
+    background-color: rgba(6, 9, 32, 0.86);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+.Hero header {
+    width: 100%;
+    height: 140px;
+    color :white;
+    z-index: 2;
+    padding: 35px 40px;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.Hero header h1 {
+    padding:10px;
+    width: 240px;
+    border-right: 1px solid rgba(255, 255, 255, 0.424);
+}
+.Hero header {
+    display: flex;
+}
+.Hero header ul {
+    margin: 15px 0;
+}
+.Hero header ul li {
+    display: inline;
+    list-style-type: none;
+    margin: 0px 25px;
+    font-size: 22px;
+    font-weight: 400;
+    cursor: pointer;
+}
+.ticks {
+    float: right;
+}
+.ticks > div:nth-child(2) {
+    background-color: #316BFF;
+    color: white;
+    padding:15px 30px;
+    border-radius: 4px;
+}
+.banner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-30%);
+    width: 90%;
+    height: 400px;
+    z-index: 2;
+    display: flex;
+    flex-flow: row wrap;
+    color: white;
+}
+.banner > div:nth-child(1) {
+    margin-left: 0;
+}
+.banner > div {
+    margin-left: 50px;
+    height: 100%;
+
+}
+.banner h2 {
+    letter-spacing: 6px;
+}
+.banner h1 {
+    font-size: 65px;
+    margin-bottom: 40px;
+}
+.banner button {
+    background-color: #316BFF;
+    color: white;
+    padding: 23px 55px;
+    border-radius: 5px;
+    margin-right: 20px;
+    font-size: medium;
+    cursor: pointer;
+
+}
+.learn {
+    background-color: transparent !important;
+    color: white;
+    padding: 25px 45px;
+    margin-left: 5px;
+    font-size: medium;
+    border: 0.5px solid white;
+}
+.banner h1 span {
+    color: #316BFF;
+    font-weight: bolder;
+}
+.date {
+    width: 110px;
+    height: 240px;
+    border-radius: 25px;
+    border: 0.5px solid rgba(255, 255, 255, 0.754);
+    display: flex;
+    flex-flow: column wrap;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    font-weight: bolder;
+}
+.date > div:nth-child(1) {
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.554);
+    font-size: 45px;
+}
+.date > div:nth-child(2) {
+    border-bottom: 2.5px solid white;
+    font-size: 45px;
+    margin-bottom: 5px;
+    
+}
+.date > div:nth-child(3), .date > div:nth-child(4) {
+    font-size: 22px;
+}
