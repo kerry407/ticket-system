@@ -1,0 +1,29 @@
+.intro {
+    width: 100%;
+    height: 500px;
+    background-color: white;
+    padding: 30px 35px;
+}
+.intro h2 {
+    font-size: 37px;
+}
+.intro h2 span {
+    color: #316BFF;
+    font-weight: bolder;
+}
+.intro h3 {
+    font-weight:900;
+    margin-top: 15px;
+    font-size: 20px;
+    text-decoration: underline;
+
+}
+.events {
+    display: flex;
+    width: 100%;
+    height: auto;
+    justify-content: space-between;
+    flex-flow: row wrap;
+    padding: 20px;
+    
+}

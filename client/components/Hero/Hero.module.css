@@ -39,13 +39,37 @@
 .Hero header ul {
     margin: 15px 0;
 }
+.Hero header ul li:nth-child(1):hover {
+    border-bottom: none;
+}
 .Hero header ul li {
     display: inline;
     list-style-type: none;
-    margin: 0px 25px;
-    font-size: 22px;
-    font-weight: 400;
+    margin: 0px 20px;
+    font-size: 16px;
     cursor: pointer;
+    font-weight: 400;
+}
+.Hero header ul li:hover {
+    border-bottom: 1px solid #316BFF;
+    padding-bottom: 5px;
+    transition: 0.25s;
+}
+.Hero header ul li input {
+    background-color: rgba(255, 255, 255, 0.424);
+    border: none;
+    background: none;
+    border: 1px solid white;
+    outline: none;
+    border-radius: 19px;
+    color: white;
+    height: 28px;
+    width: 120px;
+    padding: 12px 13px;
+}
+.Hero header ul li input::placeholder {
+    color: white;
+    font-size: x-small;
 }
 .ticks {
     float: right;

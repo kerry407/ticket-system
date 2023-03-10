@@ -9,11 +9,12 @@ const Hero = () => {
         <div><h1>Get-Ticketz</h1></div>
         <div>
           <ul>
-            <li>Home</li>
-            <li>Pages</li>
+            <li><input placeholder='Search Event....' type="search" name="" id="" /></li>
+            <li>Organize</li>
+            <li>Create Event</li>
             <li>Agenda</li>
-            <li>Speakers</li>
-            <li>Blog</li>
+            <li>Log in</li>
+            <li>Sign up</li>
           </ul>
         </div>
         <div className={styles.ticks}>
