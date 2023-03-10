@@ -7,8 +7,26 @@ import uuid
 
 
 class Category(models.Model):
+    
+    EVENT_CATEGORIES = (
+        ("Conferences", "Conferences"),
+        ("Trade Shows", "Trade Shows"),
+        ("Networking", "Networking"),
+        ("WorkShops", "WorkShops"),
+        ("Product Launch", "Product Launch"),
+        ("Charity", "Charity"),
+        ("Music", "Music"),
+        ("Concert", "Concert"),
+        ("Performing & Visual Arts", "Performing & Visual Arts"),
+        ("Food & Drink", "Food & Drink"),
+        ("Party", "Party"),
+        ("Sports & Fitness", "Sports & Fitness"),
+        ("Technology", "Technology"),
+        ("Digital", "Digital")
+    )
+    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=40, choices=EVENT_CATEGORIES, unique=True)
     slug = models.SlugField(db_index=True, editable=False)
     
     class Meta:
@@ -25,17 +43,20 @@ class Category(models.Model):
 class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=250)
-    event_date = models.DateField()
-    event_time = models.TimeField(null=True)
+    event_start_date = models.DateField(null=True)
+    event_end_date = models.DateField(null=True)
+    event_start_time = models.TimeField(null=True)
+    event_end_time = models.TimeField(null=True)
     location = models.CharField(max_length=300)
     address = models.CharField(max_length=100, null=True)
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     date_created = models.DateTimeField(default=timezone.now)
     last_updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(db_index=True, editable=False)
-    tags = models.ManyToManyField(Category)
+    category = models.ManyToManyField(Category)
     about = models.TextField(null=True)
     expired = models.BooleanField(default=False)
+
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
