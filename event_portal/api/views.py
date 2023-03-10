@@ -1,14 +1,11 @@
 from datetime import datetime 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django.shortcuts import get_object_or_404
-from rest_framework.validators import ValidationError
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.authentication import TokenAuthentication
-from rest_framework import status 
+ 
 
 from ..models import *
 from .serializers import *
@@ -30,7 +27,7 @@ class CategoryCreateView(CreateAPIView):
     serializer_class = CategorySerializer
     
 
-class CategoryDetailView(DestroyAPIView):
+class CategoryDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
     permission_classes = [IsAdminUser]
     renderer_classes = [CustomRenderer]
@@ -57,11 +54,11 @@ class EventListView(ListAPIView):
     renderer_classes = [CustomRenderer]
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_class = EventFilter
-    search_fields = ["location", "tags__name", "title"]
-    ordering_fields = ["event_date", "date_posted", "last_updated"]
+    search_fields = ["location", "category__name", "title"]
+    ordering_fields = ["event_start_date", "date_posted", "last_updated"]
     
     def get_queryset(self):
-        return Event.objects.filter(event_date__gte=datetime.today().date().strftime('%Y-%m-%d')).order_by("-last_updated")
+        return Event.objects.filter(event_start_date__gte=datetime.today().date().strftime('%Y-%m-%d')).order_by("-last_updated")
     
 class EventDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = EventSerializer 
@@ -74,6 +71,9 @@ class EventDetailView(RetrieveUpdateDestroyAPIView):
         obj = get_object_or_404(Event, slug=slug)
         self.check_object_permissions(self.request, obj)
         return obj
+    
+    
+
     
     
     

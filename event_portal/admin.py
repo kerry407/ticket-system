@@ -9,8 +9,8 @@ class CategoryAdmin(admin.ModelAdmin):
     
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    list_display = ("title", "event_date", "location", "host")
-    list_filter = ("event_date", "location", "host")
+    list_display = ("title", "event_start_date", "location", "host")
+    list_filter = ("event_start_date", "location", "host")
     
 @admin.register(SocialMedia)
 class SocialMediaAdmin(admin.ModelAdmin):
