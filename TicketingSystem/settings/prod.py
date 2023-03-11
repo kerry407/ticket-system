@@ -1,10 +1,10 @@
 from .base import *
 import dj_database_url
 
-DEBUG = False
+DEBUG = True
 
 
-ALLOWED_HOSTS = ["eventmanagement-y16a.onrender.com"]
+ALLOWED_HOSTS = ["eventmanagement-y16a.onrender.com", "127.0.0.1", "localhost"]
 
 # Whitenoise settings for static files in production 
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
