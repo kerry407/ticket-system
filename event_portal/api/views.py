@@ -41,7 +41,7 @@ class CategoryDetailView(RetrieveUpdateDestroyAPIView):
     
 class CreateEventView(CreateAPIView):
     serializer_class = EventSerializer 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, EventHostPermissions]
     authentication_classes = [JWTAuthentication]
     renderer_classes = [CustomRenderer]
      

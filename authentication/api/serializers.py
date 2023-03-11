@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 class AccountSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
+    event_hoster = serializers.StringRelatedField()
     
     class Meta:
         model = CustomUser 
