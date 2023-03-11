@@ -84,7 +84,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background-color: white;
+  background-color: #f2f2f2;
   color: black;
   font-family: 'Open Sans';
 }
@@ -92,7 +92,10 @@ button {
   border: none;
   cursor: pointer;
 }
-
+a {
+  text-decoration: none;
+  color: inherit;
+}
 /* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

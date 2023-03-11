@@ -2,8 +2,6 @@
     position: relative;
     width: 100%;
     height: 700px;
-    background-color: red;
-
 }
 .Hero img {
     object-fit: cover;
@@ -17,7 +15,7 @@
     left: 0;
     z-index: 1;
 }
-.Hero header {
+.header {
     width: 100%;
     height: 140px;
     color :white;
@@ -28,21 +26,21 @@
     justify-content: space-between;
     align-items: center;
 }
-.Hero header h1 {
+.header h1 {
     padding:10px;
     width: 240px;
     border-right: 1px solid rgba(255, 255, 255, 0.424);
 }
-.Hero header {
+.header {
     display: flex;
 }
-.Hero header ul {
+.header ul {
     margin: 15px 0;
 }
-.Hero header ul li:nth-child(1):hover {
+.header ul li:nth-child(1):hover {
     border-bottom: none;
 }
-.Hero header ul li {
+.header ul li {
     display: inline;
     list-style-type: none;
     margin: 0px 20px;
@@ -50,12 +48,12 @@
     cursor: pointer;
     font-weight: 400;
 }
-.Hero header ul li:hover {
+.header ul li:hover {
     border-bottom: 1px solid #316BFF;
     padding-bottom: 5px;
     transition: 0.25s;
 }
-.Hero header ul li input {
+.header ul li input {
     background-color: rgba(255, 255, 255, 0.424);
     border: none;
     background: none;
@@ -67,7 +65,7 @@
     width: 120px;
     padding: 12px 13px;
 }
-.Hero header ul li input::placeholder {
+.header ul li input::placeholder {
     color: white;
     font-size: x-small;
 }

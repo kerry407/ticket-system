@@ -1,4 +1,5 @@
 import styles from './login.module.css'
+import Link from 'next/link'
 
 const login = () => {
   return (
@@ -14,6 +15,15 @@ const login = () => {
         <input type="password" placeholder='Enter your password' />
         <div><button>Forgot password?</button></div>
         <button className={styles.submitButton}>Login</button>
+
+        <div className={styles.account}>
+            Don't have an account?
+            <div>
+                <Link  href={`/auth/signup`}>
+                <button type="button">Create account</button>
+                </Link>
+            </div>
+        </div>
         </form>
     </div>
   )
