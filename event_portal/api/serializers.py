@@ -24,6 +24,11 @@ class EventSerializer(serializers.ModelSerializer):
                     "slug"
                 ]
         
+    def validate(self, data):
+        if data["event_end_date"] < data["event_start_date"]:
+            raise serializers.ValidationError("event_end_date cannot be less than event_start_date")
+        return data
+        
     def create(self, validated_data):
         category = validated_data.pop('category',[])
         event = super().create(validated_data)
