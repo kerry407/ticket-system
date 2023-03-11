@@ -4,7 +4,7 @@ import dj_database_url
 DEBUG = False
 
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["eventmanagement-y16a.onrender.com"]
 
 # Whitenoise settings for static files in production 
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
