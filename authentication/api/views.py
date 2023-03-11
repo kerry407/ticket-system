@@ -8,7 +8,7 @@ from rest_framework.validators import ValidationError
 from .serializers import AccountSerializer, HostUserProfileSerializer
 from event_portal.api.renderers import CustomRenderer
 from django.contrib.auth import get_user_model
-from ..models import CustomUser, HostUserProfile
+from ..models import HostUserProfile
 
 class CreateAccountView(CreateAPIView):
     '''
@@ -16,6 +16,7 @@ class CreateAccountView(CreateAPIView):
         It takes three fields in the payload,
         "email", "password1", "password2" 
     '''
+    
     serializer_class = AccountSerializer
     permission_classes = [AllowAny]
     renderer_classes = [CustomRenderer]
@@ -23,6 +24,11 @@ class CreateAccountView(CreateAPIView):
         
         
 class HostProfileCreateView(CreateAPIView):
+    '''
+        This API endpoint is to allow users create their events,
+        Users must have a HostProfile before they can host events
+    '''
+    
     serializer_class = HostUserProfileSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]

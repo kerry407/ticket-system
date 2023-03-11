@@ -42,7 +42,7 @@ class Category(models.Model):
     
 class Event(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=250)
+    title = models.CharField(max_length=250, unique=True)
     event_start_date = models.DateField(null=True)
     event_end_date = models.DateField(null=True)
     event_start_time = models.TimeField(null=True)
