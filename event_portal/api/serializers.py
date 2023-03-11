@@ -9,15 +9,9 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
         
 class EventSerializer(serializers.ModelSerializer):
-    event_categories = serializers.SerializerMethodField()
     host = serializers.StringRelatedField()
     slug = serializers.StringRelatedField()
-    
-    def get_event_categories(self, obj):
-        categories = obj.category.all()
-        category_list = [category.name for category in categories]
-        return category_list
-            
+    category = serializers.ListSerializer(child=serializers.CharField())
     
     class Meta:
         model = Event 
@@ -25,8 +19,14 @@ class EventSerializer(serializers.ModelSerializer):
                     "title", "event_start_date", 
                     "event_start_time","event_end_date", 
                     "event_end_time", "location", 
-                    "address", "date_created", 
-                    "last_updated", "event_categories", 
-                    "about", "expired", "host",
+                    "address", "date_created", "category",
+                    "last_updated", "about", "expired", "host",
                     "slug"
                 ]
+        
+    def create(self, validated_data):
+        category = validated_data.pop('category',[])
+        event = super().create(validated_data)
+        category_qs = Category.objects.filter(name__in=category)
+        event.category.add(*category_qs)
+        return event

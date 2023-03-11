@@ -1,16 +1,18 @@
 from datetime import datetime 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.filters import OrderingFilter, SearchFilter
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import action
+
  
 
 from ..models import *
 from .serializers import *
 from .renderers import CustomRenderer
-from .permissions import EventHostPermission 
+from .permissions import *
 from .pagination import CustomPagination
 from .filters import EventFilter
 
@@ -29,7 +31,7 @@ class CategoryCreateView(CreateAPIView):
 
 class CategoryDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminOrReadOnly]
     renderer_classes = [CustomRenderer]
     
     def get_object(self):
@@ -63,8 +65,9 @@ class EventListView(ListAPIView):
 class EventDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = EventSerializer 
     renderer_classes = [CustomRenderer]
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [EventHostPermission]
+    authentication_classes = [JWTAuthentication] 
+    permission_classes = [EventHostORReadOnly]
+    
     
     def get_object(self):
         slug = self.kwargs["slug"]
