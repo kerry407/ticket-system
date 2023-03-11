@@ -1,4 +1,4 @@
-from ..models import CustomUser 
+from ..models import CustomUser, HostUserProfile
 from rest_framework import serializers
 
 
@@ -25,3 +25,11 @@ class AccountSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("An account already exists with this email")
         new_account = CustomUser.objects.create_user(email=email, password=password)
         return new_account
+    
+
+class HostUserProfileSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    class Meta:
+        model = HostUserProfile 
+        fields = "__all__"
+        
