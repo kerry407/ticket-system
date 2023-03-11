@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
 import Hero from '../components/Hero/Hero'
+import Intro from '../components/Intro/Intro'
+import Script from 'next/script'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -18,7 +20,9 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
           <Hero />
+          <Intro />
       </main>
+      <Script src='https://kit.fontawesome.com/4ef8c63dd7.js' />
     </>
   )
 }

@@ -5,22 +5,6 @@ import bg1 from '../../public/Images/bg-1.jpeg'
 const Hero = () => {
   return (
     <div className={styles.Hero}>
-      <header>
-        <div><h1>Get-Ticketz</h1></div>
-        <div>
-          <ul>
-            <li>Home</li>
-            <li>Pages</li>
-            <li>Agenda</li>
-            <li>Speakers</li>
-            <li>Blog</li>
-          </ul>
-        </div>
-        <div className={styles.ticks}>
-          <div></div>
-          <div>Buy Tickets</div>
-        </div>
-      </header>
       <Image src={bg1} layout="fill" alt='Hero-Image' />
       <div className={styles.overlay}></div>
       <div className={styles.banner}>
