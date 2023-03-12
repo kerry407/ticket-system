@@ -16,7 +16,6 @@ class CreateAccountView(CreateAPIView):
         It takes three fields in the payload,
         "email", "password1", "password2" 
     '''
-    
     serializer_class = AccountSerializer
     permission_classes = [AllowAny]
     renderer_classes = [CustomRenderer]
@@ -28,7 +27,6 @@ class HostProfileCreateView(CreateAPIView):
         This API endpoint is to allow users create their events,
         Users must have a HostProfile before they can host events
     '''
-    
     serializer_class = HostUserProfileSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
