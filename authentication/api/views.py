@@ -4,6 +4,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.validators import ValidationError
+from django.db import IntegrityError
 
 from .serializers import AccountSerializer, HostUserProfileSerializer
 from event_portal.api.renderers import CustomRenderer
@@ -34,16 +35,14 @@ class HostProfileCreateView(CreateAPIView):
     
     def perform_create(self, serializer):
         instance = self.request.user
-        user = get_user_model().objects.get(email=instance.email)
-        host = HostUserProfile.objects.filter(user=user)
-        if host.exists():
+        try:
+            serializer.save(user=instance)
+        except IntegrityError:
             raise ValidationError(
                                     {
                                         "detail": "This user already has an event host profile"
                                     }
                                 )
-        serializer.save(user=instance)
-        user.event_hoster = True 
-        user.save()
-        print(user.email, user.event_hoster)
+      
+        
 

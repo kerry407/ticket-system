@@ -22,8 +22,8 @@ class CustomUser(AbstractUser):
         return self.email 
     
 class HostUserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    company_name = models.CharField(max_length=50)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
+    company_name = models.CharField(max_length=50, unique=True)
     company_description = models.TextField(max_length=500, blank=True)
     website_url = models.URLField(max_length=200, blank=True)
     phone_number = models.CharField(max_length=20, blank=True)
