@@ -11,7 +11,6 @@ class CategorySerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     host = serializers.StringRelatedField()
     slug = serializers.StringRelatedField()
-    category = serializers.ListSerializer(child=serializers.CharField())
     
     class Meta:
         model = Event 
@@ -25,13 +24,11 @@ class EventSerializer(serializers.ModelSerializer):
                 ]
         
     def validate(self, data):
-        if data["event_end_date"] < data["event_start_date"]:
-            raise serializers.ValidationError("event_end_date cannot be less than event_start_date")
+        try:
+            if data["event_end_date"] < data["event_start_date"]:
+                raise serializers.ValidationError("event_end_date cannot be less than event_start_date")
+        except KeyError:
+            pass 
         return data
         
-    def create(self, validated_data):
-        category = validated_data.pop('category',[])
-        event = super().create(validated_data)
-        category_qs = Category.objects.filter(name__in=category)
-        event.category.add(*category_qs)
-        return event
+    
