@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
+from rest_framework import viewsets
+from django_auto_prefetching import AutoPrefetchViewSetMixin
 
  
 
@@ -23,6 +25,7 @@ class CategoryListView(ListAPIView):
     '''
     serializer_class = CategorySerializer
     renderer_classes = [CustomRenderer]
+    pagination_class = CustomPagination
     queryset = Category.objects.all()
     
 class CategoryCreateView(CreateAPIView):
@@ -50,26 +53,12 @@ class CategoryDetailView(RetrieveUpdateDestroyAPIView):
         slug = self.kwargs["slug"]
         obj = get_object_or_404(Category, slug=slug)  
         return obj 
-    
-class CreateEventView(CreateAPIView):
-    '''
-        API endpoint to create an event instance,
-        Only users with event_host=True and have HostProfile Instances
-        are allowed to access this endpoint
-    '''
-    serializer_class = EventSerializer 
-    permission_classes = [IsAuthenticated, EventHostPermissions]
-    authentication_classes = [JWTAuthentication]
-    renderer_classes = [CustomRenderer]
-     
-    def perform_create(self, serializer):
-        user = self.request.user 
-        serializer.save(host=user)
         
-    
-class EventListView(ListAPIView):
+        
+class EventAPIViewset(AutoPrefetchViewSetMixin, viewsets.ModelViewSet):
     '''
-        API endpoint to get a list of all event instances
+        API endpoint to create, retrieve, update or partial update 
+        and delete event(s).
     '''
     serializer_class = EventSerializer 
     pagination_class = CustomPagination
@@ -79,26 +68,32 @@ class EventListView(ListAPIView):
     search_fields = ["location", "category__name", "title"]
     ordering_fields = ["event_start_date", "date_posted", "last_updated"]
     
+    def perform_create(self, serializer):
+        user = self.request.user 
+        serializer.save(host=user)
+    
     def get_queryset(self):
-        return Event.objects.filter(event_start_date__gte=datetime.today().date().strftime('%Y-%m-%d')).order_by("-last_updated")
-    
-class EventDetailView(RetrieveUpdateDestroyAPIView):
-    '''
-        API endpoint to retrive, update or partial update 
-        and delete an event instance. Only the user who created 
-        the instance can perform PUT, PARTIAL PUT and DELETE on any instance
-    '''
-    serializer_class = EventSerializer 
-    renderer_classes = [CustomRenderer]
-    authentication_classes = [JWTAuthentication] 
-    permission_classes = [EventHostORReadOnly]
-    
-    
+        return Event.objects.filter(
+                                event_start_date__gte=datetime.today().date().strftime('%Y-%m-%d')
+                                ).order_by("-last_updated")
+        
     def get_object(self):
+        # read event instance by slug parameter
         slug = self.kwargs["slug"]
         obj = get_object_or_404(Event, slug=slug)
         self.check_object_permissions(self.request, obj)
         return obj
+        
+    def get_permissions(self):
+        # define permissions based on the action a user wants to perform
+        
+        if self.action == 'create':
+            self.permission_classes = [permissions.IsAuthenticated]
+        elif self.action in ['update', 'partial_update', 'destroy']:
+            self.permission_classes = [EventHostOrReadOnly]
+        else:
+            self.permission_classes = [permissions.AllowAny]
+        return super().get_permissions()   
     
     
 class CategoryEventView(ListAPIView):

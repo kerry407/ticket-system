@@ -31,6 +31,7 @@ class TestSetup(TestCase):
         user = User.objects.create_superuser(
             email='test2@test.com', first_name='test',
             last_name='test&test', password="Akpororo1", 
+            event_hoster=True
         )
         return user
         

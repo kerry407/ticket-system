@@ -6,7 +6,15 @@ import uuid
 # Create your models here.
 
 
-class Category(models.Model):
+class BaseTrackingModel(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date_created = models.DateTimeField(default=timezone.now)
+    last_updated = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        abstract = True 
+
+class Category(BaseTrackingModel):
     
     EVENT_CATEGORIES = (
         ("Conferences", "Conferences"),
@@ -24,12 +32,10 @@ class Category(models.Model):
         ("Technology", "Technology"),
         ("Digital", "Digital")
     )
-    
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=40, choices=EVENT_CATEGORIES, unique=True)
     slug = models.SlugField(db_index=True, editable=False)
     
-    class Meta:
+    class Meta(BaseTrackingModel.Meta):
         verbose_name_plural = "Categories"
     
     def save(self, *args, **kwargs):
@@ -40,18 +46,15 @@ class Category(models.Model):
         return self.name
 
     
-class Event(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Event(BaseTrackingModel):
     title = models.CharField(max_length=250, unique=True)
-    event_start_date = models.DateField(null=True)
-    event_end_date = models.DateField(null=True)
-    event_start_time = models.TimeField(null=True)
-    event_end_time = models.TimeField(null=True)
+    event_start_date = models.DateField()
+    event_end_date = models.DateField()
+    event_start_time = models.TimeField()
+    event_end_time = models.TimeField()
     location = models.CharField(max_length=300)
     address = models.CharField(max_length=100, null=True)
     host = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    date_created = models.DateTimeField(default=timezone.now)
-    last_updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(db_index=True, editable=False)
     category = models.ManyToManyField(Category)
     about = models.TextField(null=True)
@@ -66,8 +69,7 @@ class Event(models.Model):
         return self.title
     
 
-class Ticket(models.Model):
-    ticket_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Ticket(BaseTrackingModel):
     ticket_type = models.CharField(max_length=25)
     ticket_price = models.FloatField()
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
@@ -76,8 +78,7 @@ class Ticket(models.Model):
         return self.ticket_id
     
     
-class SocialMedia(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class SocialMedia(BaseTrackingModel):
     facebook = models.URLField(null=True, blank=True)
     instagram = models.URLField(null=True, blank=True)
     twitter = models.URLField(null=True, blank=True)
